@@ -43,7 +43,7 @@ int main()
 	*/
 
     Features convolvedFeatures;
-    cnnConvolution(convImages, W, b, &convolvedFeatures);
+    cnnConvolution2(convImages, W, b, &convolvedFeatures);
 
     printAllFeatures(convolvedFeatures, "./log/ftr.txt");
 

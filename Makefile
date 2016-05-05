@@ -1,15 +1,16 @@
 CXX = gcc
+CFLAGS = -O3
 
 test: test.o mnist.o cnnConvolve.o blob.o
-		$(CXX) $^ -o $@ -I.
+		$(CXX) $(CFLAGS) $^ -o $@ -I. /opt/OpenBlas/lib/libopenblas.a -L/opt/OpenBLAS/lib -lopenblas -lpthread
 cnnConvolve.o: cnnConvolve.c
-		$(CXX) -c $< -I.
+		$(CXX) $(CFLAGS) -c $< -I. -I/opt/OpenBLAS/include/
 test.o: test.c
-		$(CXX) -c $< -I. 
+		$(CXX) $(CFLAGS) -c $< -I. 
 mnist.o: mnist.c
-		$(CXX) -c $< -I.
+		$(CXX) $(CFLAGS) -c $< -I.
 blob.o: blob.c
-		$(CXX) -c $< -I.
+		$(CXX) $(CFLAGS) -c $< -I.
 clean:
 		rm log/*
 		rm *.o test

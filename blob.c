@@ -109,13 +109,16 @@ void loadb(float* b, int size, char* filename){
 void checkRes(char* fn1, char* fn2){
 	FILE * f1 = fopen(fn1, "r");
 	FILE * f2 = fopen(fn2, "r");
+
+	int pos = 0;
 	float x,y;
 	printf("Begin check\n");
 	while(fscanf(f1, "%f", &x)==1 && fscanf(f2, "%f", &y)==1){
 		if(fabsf(x-y) > 1e-3){
-			printf("%f %f Error check!\n", x, y);
+			printf("%f %f Error check @ line %d!\n", x, y, pos);
 			break;
 		}
+		pos++;
 	}
 	printf("Check OK!\n");
 	fclose(f1);

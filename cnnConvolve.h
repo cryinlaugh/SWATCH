@@ -5,4 +5,6 @@
 
 void cnnConvolution(Blob const images, Weight const W, float * const  b, Features* convolvedFeatures);
 
+void cnnConvolution2(Blob const images, Weight const W, float * const  b, Features* convolvedFeatures);
+
 #endif
