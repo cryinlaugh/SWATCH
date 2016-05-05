@@ -46,5 +46,8 @@ int main()
     cnnConvolution(convImages, W, b, &convolvedFeatures);
 
     printAllFeatures(convolvedFeatures, "./log/ftr.txt");
+
+    checkRes("./log/ftr.txt", "/Users/fang/Documents/Code/CNN/CPULeNet/cnn-matlab/layer/convolvedFeatures.txt");
+
     return 0;
 }

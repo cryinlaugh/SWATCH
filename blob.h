@@ -37,4 +37,7 @@ void printBlob(Blob const A, int const img, int const cha, char* filename);
 void loadWeight(Weight* W, char* filename);
 
 void loadb(float* b, int size, char* filename);
+
+void checkRes(char* fn1, char* fn2);
+
 #endif

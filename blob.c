@@ -1,4 +1,5 @@
 #include "blob.h"
+#include <math.h>
 
 void blobCopy(Blob* const A, Blob* B, int numImg)
 {
@@ -102,4 +103,21 @@ void loadb(float* b, int size, char* filename){
 		fscanf(fh, "%f", b+i);
 	}
 	fclose(fh);	
+}
+
+
+void checkRes(char* fn1, char* fn2){
+	FILE * f1 = fopen(fn1, "r");
+	FILE * f2 = fopen(fn2, "r");
+	float x,y;
+	printf("Begin check\n");
+	while(fscanf(f1, "%f", &x)==1 && fscanf(f2, "%f", &y)==1){
+		if(fabsf(x-y) > 1e-3){
+			printf("%f %f Error check!\n", x, y);
+			break;
+		}
+	}
+	printf("Check OK!\n");
+	fclose(f1);
+	fclose(f2);
 }
