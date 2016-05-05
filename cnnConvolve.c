@@ -23,15 +23,18 @@ void cnnConvolution(Blob const images, Weight const W, float * const  b, Feature
 	convolvedFeatures->numFeatures = numFilters;
 	convolvedFeatures->numImages = numImages;
 
-	convolvedFeatures->data = (float *)malloc(sizeof(convDimRow*convDimCol*numFilters*numImages));
+	printf("%d %d %d %d\n", convDimRow, convDimCol, numFilters, numImages);
+	printf("before allocate data %d floats\n", convDimRow*convDimCol*numFilters*numImages);
+	convolvedFeatures->data = (float *)malloc(sizeof(float)*(convDimRow*convDimCol*numFilters*numImages));
 	memset(convolvedFeatures->data, 0, convDimRow*convDimCol*numFilters*numImages*sizeof(float));
+	printf("before conv\n");
 
-
+	float* convolvedImage = (float*)malloc(sizeof(float)*convDimRow*convDimCol); 
 	for (int imageNum = 0; imageNum < numImages; imageNum++){
 	  	for (int filterNum = 0; filterNum < numFilters; filterNum++){
 	      	
-	      	float* convolvedImage = (float*)malloc(sizeof(float)*convDimRow*convDimCol); 
 	      	//zeros(convDimRow, convDimCol);
+	      	memset(convolvedImage, 0, sizeof(float)*convDimRow*convDimCol);
 	      	for (int channelNum = 0; channelNum < channel; ++channelNum){
 	          //if con_matrix(channelNum,filterNum) ~= 0
 	            // Obtain the feature (filterDim x filterDim) needed during the convolution
@@ -51,24 +54,33 @@ void cnnConvolution(Blob const images, Weight const W, float * const  b, Feature
 	            // be sure to do a 'valid' convolution
 	            //convolvedImage = convolvedImage + conv2(im, filter, shape);
 	            for(int i = 0; i < convDimRow; ++i){
-	            	for(int j = 0; j < convDimCol; ++i){
+	            	for(int j = 0; j < convDimCol; ++j){
 	            		float  res = 0.0;
 	            		int startpos = i*imageDimCol + j;
-	            		for(int ii=0; ii<filterDimRow; ++ii)
-	            			for(int jj=0; jj<filterDimCol; ++jj)
-	            				res += *(im + startpos + jj + ii*imageDimCol);
-	            		convolvedImage[startpos] = 1/(1+exp(res + b[filterNum]));
+	            		for(int ii=0; ii<filterDimRow; ++ii){
+	            			for(int jj=0; jj<filterDimCol; ++jj){
+	            				res += *(im + startpos + jj + ii*imageDimCol) * (*(filter+ii*filterDimCol+jj));
+	            				//printf("%f ", *(im + startpos + jj + ii*imageDimCol));
+	            			}
+	            			//printf("\n");
+	            		}
+	            		//exit(0);
+	            		convolvedImage[i*convDimCol+j] +=  1/(1+exp(-res-b[filterNum]));
+	            		//printf("%f ", 1/(1+exp(-res-b[filterNum])) );
+	            		//printf("loop %d %d\n", i, j);
 	            	}
+	            	//printf("\n");
 	            }
-
 	  		}
 	      	//convolvedImage = convolvedImage + b(filterNum);
 	      	//convolvedFeatures(:, :, filterNum, imageNum) = convolvedImage;
 	      	memcpy( convolvedFeatures->data + filterNum*(convDimRow*convDimCol) + imageNum*(numFilters*convDimRow*convDimCol)\
 	      		, convolvedImage, sizeof(float)*convDimRow*convDimCol);
 
+
 	  	}
 	}
+	free(convolvedImage);
 	//printFeatures(*convolvedFeatures, 0, 0, "loginfunc.txt");
 }
 

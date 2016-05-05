@@ -11,4 +11,5 @@ mnist.o: mnist.c
 blob.o: blob.c
 		$(CXX) -c $< -I.
 clean:
+		rm log/*
 		rm *.o test

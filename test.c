@@ -10,7 +10,7 @@ int main()
 	int imageDim = 28;
 
 	int filterDim = 8;
-	int numFilters = 100;
+	int numFilters = 3;
 	int numImages = 60000;
 	int poolDim = 3;
 
@@ -22,23 +22,29 @@ int main()
     Blob convImages;
     blobCopy(&inputData, &convImages, 8);
 
-    printBlob(convImages,0, 0, "img0_0.txt");
+    printBlob(convImages,0, 0, "./log/img0_0.txt");
 
     float* b = (float* )malloc(sizeof(float)*numFilters);
+    loadb(b, numFilters, "/Users/fang/Documents/Code/CNN/CPULeNet/cnn-matlab/layer/b.txt");
+    /*
     for(int i=0; i<numFilters; ++i)
-    	b[i] = rand()/(float)(RAND_MAX);
+    	b[i] = 1; //rand()/(float)(RAND_MAX);
+	*/
 
     Weight W;
     W.filterDim = filterDim;
     W.channel = 1;
     W.numFilters = numFilters;
+    loadWeight(&W, "/Users/fang/Documents/Code/CNN/CPULeNet/cnn-matlab/layer/W.txt");
+    /*
     W.data = (float*)malloc(sizeof(float)*filterDim*filterDim*numFilters);
     for(int i=0; i<filterDim*filterDim*numFilters; ++i)
-    	W.data[i] = rand()/(float)(RAND_MAX);
+    	W.data[i] = 1; //rand()/(float)(RAND_MAX);
+	*/
 
     Features convolvedFeatures;
     cnnConvolution(convImages, W, b, &convolvedFeatures);
 
-    printFeatures(convolvedFeatures, 0, 0, "log00.txt");
+    printAllFeatures(convolvedFeatures, "./log/ftr.txt");
     return 0;
 }

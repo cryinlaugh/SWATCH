@@ -40,6 +40,7 @@ void read_mnist_images(char* fileName, Blob * inputData)
   inputData->numChannel = 1;
   inputData->width = cols;
   inputData->height = rows;
+  inputData->numImages = items;
   inputData->data = (float*)malloc( sizeof(float)*rows*cols*items );
 
   unsigned char * image  = (unsigned char*)malloc(sizeof(char) * rows * cols);

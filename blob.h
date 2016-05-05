@@ -30,6 +30,11 @@ void blobCopy(Blob* const A, Blob* B, int numImg);
 
 void printFeatures(Features const A, int const ftr, int const img, char* filename);
 
+void printAllFeatures(Features const A, char* filename);
+
 void printBlob(Blob const A, int const img, int const cha, char* filename);
 
+void loadWeight(Weight* W, char* filename);
+
+void loadb(float* b, int size, char* filename);
 #endif
