@@ -59,7 +59,7 @@ void cnnConvolution(Blob const images, Weight const W, float * const  b, Feature
 	            			//printf("\n");
 	            		}
 	            		//exit(0);
-	            		convolvedImage[i*convDimCol+j] +=  res+b[filterNum]; //1/(1+exp(-res-b[filterNum]));
+	            		convolvedImage[i*convDimCol+j] +=  1/(1+exp(-res-b[filterNum]));
 	            		//printf("%f ", 1/(1+exp(-res-b[filterNum])) );
 	            		//printf("loop %d %d\n", i, j);
 	            	}
@@ -74,6 +74,5 @@ void cnnConvolution(Blob const images, Weight const W, float * const  b, Feature
 	  	}
 	}
 	free(convolvedImage);
-
 }
 
