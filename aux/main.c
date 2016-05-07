@@ -3,7 +3,7 @@
 #include "sys/time.h"
 #include "time.h"
 
-extern void dgemm_(char*, char*, int*, int*,int*, double*, double*, int*, double*, int*, double*, double*, int*);
+extern void dgemm_(char*, char*, int*, int*,int*, float*, float*, int*, float*, int*, float*, float*, int*);
 
 int main(int argc, char* argv[])
 {
@@ -22,15 +22,15 @@ int main(int argc, char* argv[])
   int sizeofc = m * n;
   char ta = 'N';
   char tb = 'N';
-  double alpha = 1.2;
-  double beta = 0.001;
+  float alpha = 1.2;
+  float beta = 0.001;
 
   struct timeval start,finish;
-  double duration;
+  float duration;
 
-  double* A = (double*)malloc(sizeof(double) * sizeofa);
-  double* B = (double*)malloc(sizeof(double) * sizeofb);
-  double* C = (double*)malloc(sizeof(double) * sizeofc);
+  float* A = (float*)malloc(sizeof(float) * sizeofa);
+  float* B = (float*)malloc(sizeof(float) * sizeofb);
+  float* C = (float*)malloc(sizeof(float) * sizeofc);
 
   srand((unsigned)time(NULL));
 
@@ -48,12 +48,12 @@ int main(int argc, char* argv[])
   dgemm_(&ta, &tb, &m, &n, &k, &alpha, A, &m, B, &k, &beta, C, &m);
   gettimeofday(&finish, NULL);
 
-  duration = ((double)(finish.tv_sec-start.tv_sec)*1000000 + (double)(finish.tv_usec-start.tv_usec)) / 1000000;
-  double gflops = 2.0 * m *n*k;
+  duration = ((float)(finish.tv_sec-start.tv_sec)*1000000 + (float)(finish.tv_usec-start.tv_usec)) / 1000000;
+  float gflops = 2.0 * m *n*k;
   gflops = gflops/duration*1.0e-6;
 
-  for(i = 0; i < sizeofc; ++i)
-    printf("%f\n", C[i]);
+  //for(i = 0; i < sizeofc; ++i)
+  //  printf("%f\n", C[i]);
   FILE *fp;
   fp = fopen("timeDGEMM.txt", "a");
   fprintf(fp, "%dx%dx%d\t%lf s\t%lf MFLOPS\n", m, n, k, duration, gflops);

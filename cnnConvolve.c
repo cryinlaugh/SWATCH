@@ -1,6 +1,5 @@
 #include "cnnConvolve.h"
 #include <math.h>
-#include <cblas.h>
 
 /****
 NO TEST:
@@ -171,6 +170,8 @@ void cnnConvolution2(Blob const images, Weight const W, float * const  b, Featur
 					*(convolvedFeatures->data+c+r*convDimCol+convDimCol*convDimRow*flt+convDimCol*convDimRow*numFilters*img) = 
 						1/(1+exp(-*(tmp+c+r*convDimCol+img*(convDimRow*convDimCol)+flt*convDimCol*convDimRow*numImages)-b[flt]));
 				}
+
+
 	free(tmp);
 	printf("cnnConvolution2\n");
 }

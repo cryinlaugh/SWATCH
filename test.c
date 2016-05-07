@@ -1,6 +1,7 @@
 #include "mnist.h"
 #include "blob.h"
 #include "cnnConvolve.h"
+#include "cnnPool.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -48,6 +49,14 @@ int main()
     printAllFeatures(convolvedFeatures, "./log/ftr.txt");
 
     checkRes("./log/ftr.txt", "/Users/fang/Documents/Code/CNN/CPULeNet/cnn-matlab/layer/convolvedFeatures.txt");
+
+    Features pooledFeatures;
+    float weight;
+
+    cnnPool(2, 2, convolvedFeatures, "meanpool", &pooledFeatures, &weight);
+    
+    printf("Weight is %f\n", weight);
+    printAllFeatures(pooledFeatures, "./log/pooledFeatures.txt");
 
     return 0;
 }

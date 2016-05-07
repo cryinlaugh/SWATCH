@@ -1,1 +1,0 @@
-gcc -o test_cblas_open test_cblas_dgemm.c -I /opt/OpenBLAS/include/ -L/opt/OpenBLAS/lib -lopenblas -lpthread
